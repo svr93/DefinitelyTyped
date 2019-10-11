@@ -13,6 +13,7 @@ import * as R from 'ramda';
     return x * 2;
   }
 
+  // $ExpectType number[]
   R.map(double, [1, 2, 3]); // => [2, 4, 6]
 
   // functor
@@ -41,4 +42,7 @@ import * as R from 'ramda';
 
   R.map<A, A>(R.inc)({ a: 1, b: 2 });
   R.map<A, B>(R.toString)({ a: 1, b: 2 });
+
+  // $ExpectType Record<string, number>
+  R.map(R.inc, { a: 1, b: 2 });
 };
