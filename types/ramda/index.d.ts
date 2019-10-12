@@ -1770,21 +1770,13 @@ declare namespace R {
         >(callback: (value: T) => U, data: D): Record<string, U>;
 
         map<T, U>(callback: Func<T, U>): <
-            D extends T[] | readonly T[] | Record<string, T> | Func<U, unknown>
+            D extends T[] | readonly T[] | Record<string, T>
         >(data: D) => D extends T[]
             ? U[]
             : D extends readonly T[]
             ? readonly U[]
             : D extends Record<string, T>
             ? Record<string, U>
-            : D extends Func<U, infer U2>
-            ? <
-                D2 extends T[] | readonly T[] | Record<string, T>
-            >(data: D2) => D2 extends T[]
-                ? U2[]
-                : D2 extends readonly T[]
-                ? readonly U2[]
-                : Record<string, U2>
             : never;
 
         map<T, U>(fn: (x: T) => U, obj: Functor<T>): Functor<U>; // used in functors
@@ -2841,9 +2833,9 @@ declare namespace R {
          */
         take<T>(n: number, xs: readonly T[]): T[];
         take(n: number, xs: string): string;
-        take(n: number): {
+        take<T>(n: number): {
             (xs: string): string;
-            <T>(xs: readonly T[]): T[];
+            (xs: readonly T[]): T[];
         };
 
         /**
