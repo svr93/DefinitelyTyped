@@ -779,6 +779,7 @@ type Pair = KeyValuePair<string, number>;
 
 () => {
     const numbers    = [1, 2, 3, 4];
+    // $ExpectType (x0: readonly number[]) => number[]
     const transducer = R.compose(R.map(R.add(1)), R.take(2));
     const fn         = R.flip<number, number[], number[]>(R.append);
     R.transduce(transducer, fn, [], numbers); // => [2, 3]

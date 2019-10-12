@@ -2,7 +2,8 @@ import * as R from 'ramda';
 
 () => {
   const numbers = [1, 2, 3, 4];
-  const transducer = R.compose<number[], number[], number[]>(
+  // $ExpectType (x0: readonly number[]) => number[]
+  const transducer = R.compose(
     R.map(R.add(1)),
     R.take(2),
   );
