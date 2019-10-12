@@ -27,22 +27,13 @@ import * as R from 'ramda';
 };
 
 () => {
-  interface A {
-    a: number;
-    b: number;
-  }
-
-  interface B {
-    a: string;
-    b: string;
-  }
-
-  R.map<A, A>(R.inc, { a: 1, b: 2 });
-  R.map<A, B>(R.toString, { a: 1, b: 2 });
-
-  R.map<A, A>(R.inc)({ a: 1, b: 2 });
-  R.map<A, B>(R.toString)({ a: 1, b: 2 });
-
   // $ExpectType Record<string, number>
   R.map(R.inc, { a: 1, b: 2 });
+  // $ExpectType Record<string, string>
+  R.map(R.toString, { a: 1, b: 2 });
+
+  // $ExpectType Record<string, number>
+  R.map(R.inc)({ a: 1, b: 2 });
+  // $ExpectType Record<string, string>
+  R.map(R.toString)({ a: 1, b: 2 });
 };

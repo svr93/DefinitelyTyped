@@ -782,6 +782,8 @@ declare namespace R {
         <T, U>(val: T, obj: U): Record<K, T> & U;
     }
 
+    type Func<I, O> = (value: I) => O;
+
     interface Static {
         /**
          * Placeholder. When used with functions like curry, or op, the second argument is applied to the second
@@ -1749,10 +1751,42 @@ declare namespace R {
         /**
          * Returns a new list, constructed by applying the supplied function to every element of the supplied list.
          */
+        /*
         map<T, U>(fn: (x: T) => U, list: readonly T[]): U[];
         map<T, U>(fn: (x: T) => U): (list: readonly T[]) => U[];
         map<T, U>(fn: (x: T[keyof T & keyof U]) => U[keyof T & keyof U], list: T): U;
         map<T, U>(fn: (x: T[keyof T & keyof U]) => U[keyof T & keyof U]): (list: T) => U;
+        */
+        map<
+            D extends readonly unknown[],
+            T extends D extends ReadonlyArray<infer V> ? V : never,
+            U
+        >(callback: (value: T) => U, data: D): U[];
+
+        map<
+            D extends Record<string, unknown>,
+            T extends D[keyof D],
+            U
+        >(callback: (value: T) => U, data: D): Record<string, U>;
+
+        map<T, U>(callback: Func<T, U>): <
+            D extends T[] | readonly T[] | Record<string, T> | Func<U, unknown>
+        >(data: D) => D extends T[]
+            ? U[]
+            : D extends readonly T[]
+            ? readonly U[]
+            : D extends Record<string, T>
+            ? Record<string, U>
+            : D extends Func<U, infer U2>
+            ? <
+                D2 extends T[] | readonly T[] | Record<string, T>
+            >(data: D2) => D2 extends T[]
+                ? U2[]
+                : D2 extends readonly T[]
+                ? readonly U2[]
+                : Record<string, U2>
+            : never;
+
         map<T, U>(fn: (x: T) => U, obj: Functor<T>): Functor<U>; // used in functors
         map<T, U>(fn: (x: T) => U): (obj: Functor<T>) => Functor<U>; // used in functors
 
