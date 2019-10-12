@@ -30,6 +30,7 @@
 //                 Aram Kharazyan <https://github.com/nemo108>
 //                 Jituan Lin <https://github.com/jituanlin>
 //                 Philippe Mills <https://github.com/Philippe-mills>
+//                 Vladimir Shamsheev <https://github.com/svr93>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 3.5
 
@@ -1757,18 +1758,28 @@ declare namespace R {
         map<T, U>(fn: (x: T[keyof T & keyof U]) => U[keyof T & keyof U], list: T): U;
         map<T, U>(fn: (x: T[keyof T & keyof U]) => U[keyof T & keyof U]): (list: T) => U;
         */
+
+        /**
+         * Returns a new list, constructed by applying the supplied function to every element of the supplied list.
+         */
         map<
             D extends readonly unknown[],
             T extends D extends ReadonlyArray<infer V> ? V : never,
             U
         >(callback: (value: T) => U, data: D): U[];
 
+        /**
+         * Returns a new Record, constructed by applying the supplied function to every value of the supplied Record.
+         */
         map<
             D extends Record<string, unknown>,
             T extends D[keyof D],
             U
         >(callback: (value: T) => U, data: D): Record<string, U>;
 
+        /**
+         * Common case for composing
+         */
         map<T, U>(callback: Func<T, U>): <
             D extends T[] | readonly T[] | Record<string, T>
         >(data: D) => D extends T[]
